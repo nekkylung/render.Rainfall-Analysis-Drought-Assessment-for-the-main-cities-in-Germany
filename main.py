@@ -2,8 +2,8 @@ import pandas as pd
 import seaborn as sns
 import numpy as np
 import matplotlib as plt
-# Load csv data from the local path
-df_rainfall = pd.read_csv(r'C:\Users\Nekky Lung\Desktop\IronHack AI Course\2_FT_July2025\week3\day5_Project2\project2\Rainfall_Data_Germany_Complete.csv')
+# This will work on Render (relative path):
+df_rainfall = pd.read_csv('Rainfall_Data_Germany_Complete.csv')
 
 # basic info
 df_rainfall.value_counts()
