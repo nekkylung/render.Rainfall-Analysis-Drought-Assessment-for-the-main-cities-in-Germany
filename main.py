@@ -1,3 +1,11 @@
+from flask import Flask, render_template, jsonify
+import os
+
+# Create Flask app
+app = Flask(__name__)
+
+# Your existing imports and data processing code here...
+
 import pandas as pd
 import seaborn as sns
 import numpy as np
@@ -1011,7 +1019,58 @@ if __name__ == "__main__":
     print(f"   • Responsive design that works on different screen sizes")
 
 
+# Flask routes
+@app.route('/')
+def home():
+    return """
+    <h1>Rainfall Analysis & Drought Assessment</h1>
+    <p>German Cities Climate Data Analysis</p>
+    <h2>Available Data:</h2>
+    <ul>
+        <li><a href="/data">View processed SPI data</a></li>
+        <li><a href="/summary">View summary statistics</a></li>
+        <li><a href="/cities">View cities analyzed</a></li>
+    </ul>
+    """
 
+@app.route('/data')
+def get_data():
+    # Return some of your processed data
+    return jsonify({
+        "message": "SPI Data Analysis Complete",
+        "cities": ["Berlin", "Cologne", "Dresden", "Dusseldorf", "Frankfurt", 
+                   "Hamburg", "Hanover", "Leipzig", "Munich", "Stuttgart"],
+        "total_records": 1080,
+        "analysis_complete": True
+    })
+
+@app.route('/summary')
+def get_summary():
+    return jsonify({
+        "drought_conditions_by_city": {
+            "Leipzig": 20,
+            "Stuttgart": 20,
+            "Hamburg": 19,
+            "Berlin": 18,
+            "Frankfurt": 16,
+            "Dusseldorf": 16,
+            "Cologne": 15,
+            "Dresden": 15,
+            "Hanover": 15,
+            "Munich": 13
+        }
+    })
+
+@app.route('/cities')
+def get_cities():
+    cities = ["Berlin", "Cologne", "Dresden", "Dusseldorf", "Frankfurt", 
+              "Hamburg", "Hanover", "Leipzig", "Munich", "Stuttgart"]
+    return jsonify({"cities": cities, "count": len(cities)})
+
+if __name__ == '__main__':
+    # Get port from environment variable or default to 5000
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
 
 
 
